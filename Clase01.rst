@@ -6,8 +6,8 @@ Clase 01 - PIII 2018
 ====================
 (Fecha: 15 de agosto)
 
-:Autor: César Osimani
-:Correo: cosimani@ubp.edu.ar
+:Autor: César Osimani - Martín Salamero
+:Correo: cosimani@ubp.edu.ar - martin.salamero@gmail.com
 :Fecha: 15 de agosto de 2018
 :Regularidad: 
 	- 2 parciales (que pueden ser avances del proyecto final)

@@ -2,160 +2,11 @@
 
 .. _rcs_subversion:
 
-Clase 02 - PIII 2017 (clase no preparada aún)
+Clase 02 - PIII 2018
 ====================
-(Fecha: 23 de agosto)
+(Fecha: 22 de agosto)
 
-**Interrupciones**
 
-- Eventos que hacen que el dsPIC deje de realizar lo que está haciendo y pase a ejecutar otra tarea.
-- Las causas pueden ser diferentes (Interrupciones externas, Timers, ADC, UART, etc.).
-- 7 niveles de prioridad (1 a 7 a través de los registros IPCx). Con 0 se desactiva la interrupción.
-- Permite que una interrupción de mayor prioridad invalide una de menor prioridad que esté en progreso.
-- Existe una tabla de vectores de interrupción (IVT) que indica dónde escribir la función que atenderá dicha interrución.
-- También hay una tabla alternativa (AIVT) que se usa en situaciones de depuración o pruebas. 
-- Cuando una interrupción es atendida, el PC (Program Counter) se carga con la dirección que indica la tabla de vector de interrupción (IVT)
-
-.. figure:: images/clase02/ivt.png
-   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
-   
-.. figure:: images/clase02/ivt_dspic33F.png
-   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70214C.pdf
-  
-
-**¿Cómo escribir una rutina del servicio de interrupción (ISR)?**
-
-- Función void sin parámetros
-- No puede ser invocada
-
-.. code-block::
-
-	void interrupcionExterna()  org 0x0014  {
-
-	}
-
-**Registros para configuración**
-	
-- IFS0<15:0>, IFS1<15:0>, IFS2<15:0>
-	- Banderas de solicitud de interrupción. (el software debe borrarlo - hay que hacerlo sino sigue levantando la interrupción).
-
-- IEC0<15:0>, IEC1<15:0>, IEC2<15:0>
-	- Bits de control de habilitación de interrupción.
-
-- IPC0<15:0>... IPC10<7:0>
-	- Prioridades
-
-- INTCON1<15:0>, INTCON2<15:0>
-	- Control de interrupciones.
-		- INTCON1 contiene el control y los indicadores de estado. 
-		- INTCON2 controla la señal de petición de interrupción externa y el uso de la tabla AIVT.
-
-.. figure:: images/clase02/registro_interrupciones.png
-   :target: http://ww1.microchip.com/downloads/en/devicedoc/70138c.pdf
-
-Secuencia de interrupción
-+++++++++++++++++++++++++
-
-- Las banderas de interrupción se muestrean en el comienzo de cada ciclo de instrucción por los registros IFSx. 
-- Una solicitud de interrupción pendiente (IRQ: Interrupt Request) se indica mediante la bandera en '1' en un registro IFSx. 
-- La IRQ provoca una interrupción si se encuentra habilitado con IECx. 
-- El IVT contiene las direcciones iniciales de las rutinas de interrupción para cada fuente de interrupción.
-
-**Interrupciones externas INT0 INT1 y INT2**
-
-.. code-block::
-
-    void detectarInt0() org 0x0014  {
-							// 0x0014 - INT0  
-							// 0x0034 - INT1
-							// 0x0042 - INT2
-    }
-
-**Para elegir lanzar la interrupción con flanco ascendente o descendente hacemos:**
-
-.. code-block::
-
-	void configuracion()  {
-	    INTCON2bits.INT0EP = 0;  // 0 para Ascendente y 1 para Descendente
-	    INTCON2bits.INT1EP = 0;
-	    INTCON2bits.INT2EP = 0;
-
-	    IFS0bits.INT0IF = 0;  // Borramos la bandera
-
-	    IEC0bits.INT0IE = 1;  // Habilitamos la interrupción
-	}
-			
-
-**Ejemplo: Cambia de estado un led en PORTD0 cada vez que se detecta un flanco descendente en INT0**
-
-.. code-block::
-
-    void detectarInt0() org 0x0014  {
-        IFS0bits.INT0IF = 0;
-        LATDbits.LATD0 = ~LATDbits.LATD0;
-    }
-
-    void configuracionPuertos()  {
-        TRISDbits.TRISD0 = 0;  // Para led Int0
-    }
-
-    void main()  {
-        configuracionPuertos();
-
-        INTCON2bits.INT0EP = 1;
-
-        IEC0bits.INT0IE = 1;
-
-        while(1)  {
-        }
-    }
-
-Ejercicio 1:
-============
-
-- Conectar en RB0 y RB1 dos leds. Programar para que cada uno encienda en distintos tiempos. Por ejemplo:
-- El LED en RB0 que encienda y apague cada 250 ms
-- El LED en RB1 que encienda y apague cada 133 ms
-- Primero hacerlo sin interrupciones, y luego proponer otras soluciones.
-	
-**Ejemplo (para dsPIC30F4013):**
-
-- El ejemplo muestra cómo el dsPIC reacciona a un flanco de señal ascendente en el puerto RF6 (INT0). Para cada flanco ascendente el valor en el puerto D se incrementa en 1.
-
-.. code-block::
-
-	void configInicial()  {
-	    TRISD = 0;               // Contador de eventos por interrupción
-	    TRISAbits.TRISA11 = 1;   // RA11 como entrada
-	    INTCON2bits.INT0EP = 0;  // 0 para Ascendente y 1 para Descendente
-	}
-
-	void deteccionInt0() org 0x0014  {   // Interrupción en INT0
-	    LATD++;	            // Incrementamos el contador
-	    IFS0bits.INT0IF = 0;    // Decimos que ya atendimos la interrupción
-	}
-
-	void main()  {
-	    configInicial();
-
-	    IEC0bits.INT0IE = 1;     // Habilitamos la interrupcion externa 0
-
-	    while(1)
-	        asm nop;
-	}
-
-**Análisis de lo que sucede:**
-
-- Se utiliza el PORTD para mostrar el número de eventos de interrupción.
-- Puerto RA11 como entrada para producir una interrupción cuando en INT0 cambie de cero a 1. 
-- En el registro IEC0, el bit menos significativo está en uno para interrumpir con INT0. 
-- Cuando se produce una interrupción, la función deteccionInt0 se invoca
-- Por la instrucción org en la tabla de vectores de interrupción se escribe la función en la posición de memoria 0x000014.
-- Cuando en RA11 aparece un 1, se escribe un 1 en el bit menos significativo del registro IFS0. A continuación, se verifica si la interrupción INT0 está activado (el bit menos significativo de IEC0). 
-- Se lee de la tabla de vectores de interrupción qué parte del programa se debe ejecutar. 
-- En la posición 0x000014 está la función deteccionInt0, se ejecuta y vuelve al main.
-- Dentro de la función, el software debe poner a cero el bit menos significativo de IFS0. Si no, siempre pensará que hay interrupción.
-- Luego incrementamos en 1 LATD.
 
 Ejercicio 2:
 ============
@@ -198,4 +49,281 @@ Ejercicio 2:
 .. figure:: images/clase01/regulador.png
 
 
+
+
+
+
+
+.. figure:: images/clase03/manejo_osciladores.png
+
+.. figure:: images/clase03/osciladores.png
+   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
+
+.. figure:: images/clase03/calculo_fcy.png
+
+Ejercicio 3:
+============
+
+- Definir las siguientes funciones:
+
+.. code-block:: c
+
+	void retardarUnSegundo();
+
+	void retardo(int segundos);
+
+- Con la siguiente línea consumimos un ciclo de instrucción sin hacer nada
+	
+.. code-block:: c
+	
+	asm nop;
+
+**Resolución Ejercicio (clase pasada):** Esta es una opción para resolverlo sin usar Timers. Pero tener en cuenta que no da exacto. 
+Analizar el por qué. Para ver claro que no da exacto, probar con tiempos de 250 us y 133 us.
+
+.. code-block:: c
+
+    int contadorRB0 = 0;
+    int contadorRB1 = 0;
+
+    void main()  {
+        TRISBbits.TRISB0 = 0;
+        TRISBbits.TRISB1 = 0;
+
+        LATBbits.LATB0 = 1;
+        LATBbits.LATB1 = 1;
+
+        while(1)  {
+            contadorRB0++;
+            contadorRB1++;
+
+            if (contadorRB0 >= 250)  {
+                LATBbits.LATB0 = ~LATBbits.LATB0;
+                contadorRB0 = 0;
+            }
+        
+            if (contadorRB1 >= 133)  {
+                LATBbits.LATB1 = ~LATBbits.LATB1;
+                contadorRB1 = 0;
+            }
+        
+            Delay_ms(1);
+        }
+    }
+		
+
+.. figure:: images/clase04/manejo_timers.png
+
+.. figure:: images/clase04/map_timer1.png
+   :target: http://ww1.microchip.com/downloads/en/devicedoc/70138c.pdf
+
+.. figure:: images/clase04/map_timer23.png
+   :target: http://ww1.microchip.com/downloads/en/devicedoc/70138c.pdf
+
+.. figure:: images/clase04/map_timer45.png
+   :target: http://ww1.microchip.com/downloads/en/devicedoc/70138c.pdf
+
+.. figure:: images/clase04/ejemplo.png
+
+.. code-block::
+
+	void detectarIntT1() org 0x001a  {
+	    LATBbits.LATB0 = !LATBbits.LATB0;
+	    IFS0bits.T1IF=0;  // Borramos la bandera de interrupción T1
+	}
+
+	void main()  {
+	    TRISBbits.TRISB0 = 0;
+	    LATBbits.LATB0 = 0;
+
+	    // Modo de operación Timer1
+	    T1CON=0x0000;
+
+	    // Modo operación Timer1: reloj interno, escala 1:1, empieza cuenta en 0
+	    TMR1=0;
+
+	    // Cuenta 500 ciclos
+	    PR1=500;
+
+	    // Interrupciones Timer1, borra Bandera de interrupción
+	    IFS0bits.T1IF=0;
+
+	    // Habilita interrupción
+	    IEC0bits.T1IE=1;
+
+	    // Arranca Timer1
+	    T1CONbits.TON=1;
+
+	    while(1)
+	       asm nop;
+	}
+
+Ejercicio 4:
+============
+
+- Mejorar la solución para el ejercicio de los leds encendiendo a 250 us y 133 us.
+
+
+Conversor AD
+============	
+
+- Lleva a cabo la digitalización de las señales analógicas externas. 
+- En la familia dsPIC30F hay dos versiones: 10 bits y 12 bits.
+- Hay dos entradas analógicas para establecer una tensión de referencia externa: AVDD y AVSS (Vref+ y Vref-)
+- Para controlar el ADC se usan 6 registros de control de 16 bits: 
+	- ADCON1
+	- ADCON2
+	- ADCON3 sirve para seleccionar el modo del ADC
+	- ADCHS para seleccionar las entradas analógicas
+	- ADPCFG para seleccionar el pin utilizado como entrada analógica y el pin usado como pin de I/O
+	- ADCSSL para seleccionar las entradas analógicas que serán escaneadas
+
+- La conversión se guarda en un buffer de sólo lectura ADBUF0 a ADBUFF (16 palabras de 12 bits)
+
+**Conversor AD de 12 bits**
+
+.. figure:: images/clase04/adc.png
+
+**Una secuencia de conversión**
+
+- El proceso de adquisición de muestras se inicia activando el bit SAMP (este bit está en ADCON1)
+- La conversión se puede iniciar por: bits de control programable, contador de tiempo o un evento externo
+- Cuando el tiempo de conversión es completada, el resultado se carga en el buffer ADBUF0 a ADBUFF. 
+- Al término de la conversión, el bit DONE (que está en ADCON1) y la bandera de interrupción se setean luego del número de muestras definidas por los bits de control SMPI (este bit está en ADCON2)
+
+**Pasos para realizar una conversión AD:**
+
+- Configurar el módulo AD
+	- Configurar los pines como entradas analógicas, referencias de voltaje, y los pines digitales de I/O
+	- Seleccionar un canal de entrada del convertidor AD
+	- Seleccionar un reloj de conversión AD
+	- Seleccionar una fuente de trigger (disparo)
+	- Activar el módulo AD
+
+- Iniciar el muestreo
+- Esperar el tiempo de adquisición de muestras
+- Fin de adquisición, inicia la conversión
+- Esperar que se complete la conversión con el bit DONE
+- Leer el buffer
+	
+ADC controlando los momentos de muestreo con el Timer2	
+======================================================
+
+.. figure:: images/clase04/ejemplo_adc1.png
+
+.. figure:: images/clase04/ejemplo_adc2.png
+
+**Código fuente**
+
+.. code-block::
+
+	void initADC()  {
+	    ADPCFG = 0xFFFE; // Elije la entrada analógica a convertir en este caso AN0.
+	    // Con cero se indica entrada analógica y con 1 sigue siendo entrada digital.
+
+	    ADCON1bits.ADON = 0;  // ADC Apagado por ahora
+	    ADCON1bits.ADSIDL = 1;  // No trabaja en modo idle
+	    ADCON1bits.FORM = 0b00;  // Formato de salida entero
+	    // Para tomar muestras en forma manual. Porque lo vamos a controlar con timer2
+	    ADCON1bits.SSRC = 0b000;  
+	    // Adquiere muestra cuando el SAMP se pone en 1. SAMP lo controlamos desde el Timer2.
+	    ADCON1bits.ASAM = 0;  
+
+	    ADCON2bits.VCFG = 0b000;  // Referencia con AVdd y AVss
+	    ADCON2bits.SMPI = 0b0000;  // Lanza interrupción luego de tomar n muestras.
+	    // Con SMPI=0b0 -> 1 muestra ; Con SMPI=0b1 -> 2 muestras ; Con SMPI=0b10 -> 3 muestras ; etc.
+
+	    // AD1CON3 no se usa ya que tenemos deshabilitado el cálculo del muestreo con ADCS etc.
+
+	    // Muestreo la entrada analógica AN0 contra el nivel de AVss (AN0 es S/H+ y AVss es S/H-)
+	    ADCHS = 0b0000;  
+
+	    ADCON1bits.ADON = 1;// Habilitamos el A/D
+	}
+
+	void detectarIntT2() org 0x0020  {
+	    IFS0bits.T2IF=0;  // Borramos la bandera de interrupción T2
+
+	    ADCON1bits.DONE = 0;  // Antes de pedir una muestra ponemos en cero
+	    ADCON1bits.SAMP = 1;  // Pedimos una muestra
+
+	    asm nop;
+
+	    ADCON1bits.SAMP = 0;  // Pedimos que retenga la muestra
+	}
+
+	void interrupcionADC() org 0x002a  {
+
+	    LATCbits.LATC14 = !LATCbits.LATC14;  // Para debug y ver si ingresa acá
+
+	    // Almacenamos los 8 bits más significativos
+	    PORTBbits.RB1=ADCBUF0.B2;
+	    PORTBbits.RB2=ADCBUF0.B3;
+	    PORTBbits.RB3=ADCBUF0.B4;
+	    PORTBbits.RB4=ADCBUF0.B5;
+	    PORTBbits.RB5=ADCBUF0.B6;
+	    PORTEbits.RE0=ADCBUF0.B7;
+	    PORTEbits.RE1=ADCBUF0.B8;
+	    PORTEbits.RE2=ADCBUF0.B9;
+
+	    IFS0bits.ADIF = 0; // Borramos el flag de interrupciones
+	}
+
+	int main()  {
+
+	    // Elegimos el puerto B y E para la salida digital.
+	    // Ya que no alcanzan los pines para que todo salga por un único puerto
+	    TRISB = 0;
+	    TRISE = 0;
+
+	    TRISCbits.TRISC14 = 0;  // Para debug nomás
+
+	    // Configuramos el módulo ADC
+	    initADC();
+
+	    IEC0bits.ADIE = 1;  // Habilitamos interrupción del A/D
+
+	    // Modo de operación Timer2 - Con el clock interno
+	    T2CON = 0x0000;
+
+	    // Prescaler para timer
+	    // 00 -> 1:1 - 01 -> 1:8 - 10 -> 1:64 - 11 -> 1:256
+	    T2CONbits.TCKPS = 0b01;
+
+	    TMR2=0;
+	    PR2=7;
+
+	    IEC0bits.T2IE=1;  // Habilita interrupciones timer2
+
+	    // Arrancamos el timer2
+	    T2CONbits.TON=1;
+
+	    while(1)  {  }
+
+	    return 0;
+	}
+
+Registros
+=========
+
+.. figure:: images/clase04/registro_adc_todo.png
+   :target: http://ww1.microchip.com/downloads/en/devicedoc/70138c.pdf
+
+.. figure:: images/clase04/registro_adc1.png
+   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
+	        
+.. figure:: images/clase04/registro_adc2.png
+   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
+			
+.. figure:: images/clase04/registro_adc3.png
+   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
+			
+.. figure:: images/clase04/registro_adc4.png
+   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
+
+.. figure:: images/clase04/registro_adc5.png
+   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
+
+.. figure:: images/clase04/registro_adc6.png
+   :target: http://ww1.microchip.com/downloads/en/DeviceDoc/70046E.pdf
 
