@@ -47,7 +47,7 @@ Ejemplo: ADC controlando los momentos de muestreo con señal cuadrada externa
 
 	    AD1CON2bits.VCFG = 0b000;  // Referencia con AVdd y AVss
 	    AD1CON2bits.SMPI = 0b0000;  // Lanza interrupción luego de tomar n muestras.
-	    // Con SMPI=0b0000 -> 1 muestra ; Con SMPI=0b0001 -> 2 muestras ; Con SMPI=0b0010 -> 3 muestras ; etc.
+	    // Con SMPI=0b0000 -> 1 muestra ; Con SMPI=0b0001 -> 2 muestras ; SMPI=0b0010 -> 3 ; etc.
 
 	    // AD1CON3 no se usa ya que usamos muestreo manual
 
