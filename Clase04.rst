@@ -261,14 +261,12 @@ Recomendaciones para crear un proyecto
 
 - Crear carpeta en disco ( C:\UBP\PIII\NombreProyecto )
 - Nomenclatura de ejemplo para NombreProyecto
-
 	- P30F_Ej05
 	- P30F_Ej12
 	- P33F_Generador100Hz
 	- P33F_AlgunaDescripcion
-	
 - Dentro de esta carpeta crear las carpetas Proteus y MikroC para los 33F o sólo la carpeta MikroC para los 30F.
-- Abrir mikroC - New Porject - Standard project - Next
+- Abrir mikroC -> New Porject -> Standard project - Next
 - Project Name: P30F_Ej05 (Notar que estamos colocando el mismo nombre que la carpeta)
 - Project folder: C:\UBP\PIII\P30F_Ej05\MikroC\
 - Device Name: P30F4013
