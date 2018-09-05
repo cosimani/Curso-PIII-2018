@@ -282,8 +282,8 @@ Recomendaciones para crear un proyecto
 	- Elección apropiada para nombres de variables y funciones.
 
 - Abrir Proteus ( sólo para los 33F )
-- Al guardar el diseño, almacenarlo con el mismo nombre del proyecto ( por ejemplo: P33F_Generador100Hz.DSN )
-- En Proteus 7.9, el archivo P33F_Generador100Hz.DSN contiene todo lo referido al proyecto
+- Al guardar el diseño, almacenarlo con el mismo nombre del proyecto ( por ejemplo: P33F_Ej12.DSN )
+- En Proteus 7.9, el archivo P33F_Ej12.DSN contiene todo lo referido al proyecto
 - En la carpeta C:/UBP/PIII/P33F_Ej12/Proteus
 
 
