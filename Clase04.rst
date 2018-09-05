@@ -256,6 +256,37 @@ Ejercicio 5:
 
 
 
+Recomendaciones para crear un proyecto
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Crear carpeta en disco ( C:\UBP\PIII\NombreProyecto )
+- Nomenclatura de ejemplo para NombreProyecto
+	- P30F_Ej05
+	- P30F_Ej12
+	- P33F_Generador100Hz
+	- P33F_AlgunaDescripcion
+- Dentro de esta carpeta crear las carpetas Proteus y MikroC para los 33F o sólo la carpeta MikroC para los 30F.
+- Abrir mikroC - New Porject - Standard project - Next
+- Project Name: P30F_Ej05 (Notar que estamos colocando el mismo nombre que la carpeta)
+- Project folder: C:\UBP\PIII\P30F_Ej05\MikroC\
+- Device Name: P30F4013
+- Next - Include None - Finish
+- Al guardar y compilar este proyecto, entre todos los archivos que se generan, los siguientes son los más importantes:
+- P30F_Ej05.mcdps - Archivo de configuración del proyecto. 
+- P30F_Ej05.c - Código fuente en C (Es el código escrito por nosotros)
+- P30F_Ej05.asm - Código fuente en assembler (se autogenera al compilar el proyecto)
+- P30F_Ej05.hex - Usado para programar el dsPIC (se autogenera al compilar el proyecto)
+- Escribir el programa. No olvidar lo siguiente:
+- Edit Project ( para ajustar el PLL )
+- Estilo de indentación: Ubicación de llaves, sangría adecuada, espacios, etc..
+- Elección apropiada para nombres de variables y funciones.
+
+- Abrir Proteus ( sólo para los 33F )
+- Al guardar el diseño, almacenarlo con el mismo nombre del proyecto ( por ejemplo: P33F_Generador100Hz.DSN )
+- En Proteus 7.9, el archivo P33F_Generador100Hz.DSN contiene todo lo referido al proyecto
+- En la carpeta C:\UBP\PIII\P30F_Ej05\Proteus
+
+
 Generador de señales
 ^^^^^^^^^^^^^^^^^^^^
 
