@@ -6,15 +6,23 @@ Clase 05 - PIII 2018
 ====================
 (Fecha: 19 de septiembre)
 
+
+Ejercicio:
+==========
+
+- Generar una señal de 4Hz pensado para aplicar un efecto trémolo (variación periódica del volumen) a una señal de audio que está siendo muestreada a 4kHz.
+- Si el array tiene demasiados valores, pensar en cómo se podría resolver sabiendo que una senoidal tiene simetría.
+
 Ejercicio 6:
 ============
 
-- Generar una señal de 4Hz pensado para aplicar un efecto trémolo (variación periódica del volumen) a una señal de audio que está siendo muestreada a 4kHz.
+- Generar una señal de 5Hz pensado para aplicar un efecto trémolo (variación periódica del volumen) a una señal de audio que está siendo muestreada a 1kHz.
+
 
 Ejercicio 7:
 ============
 
-- Aplicar el trémolo de 4Hz a la señal generada de 100Hz.
+- Aplicar el trémolo de 5Hz a la señal generada de 100Hz.
 
 .. figure:: images/clase07/captura_tremolo.png
 

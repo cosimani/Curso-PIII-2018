@@ -15,16 +15,21 @@ Ejercicio 2:
 - Interrupción externa INT1
 - Flanco descendente
 - Pulsador en INT1 con resistencia en Pull up.
+- Resolver el problema de no tener un pin para la INT1
 
-**Ejercicio:** Regulador de tensión para los dsPIC33F.
-	- Alimentación desde un conector USB.
-	- Utilizar herramientas de medición para asegurarse de los voltajes obtenidos.
+Ejercicio:
+==========
+- Regulador de tensión para los dsPIC33F.
+- Alimentación desde un conector USB.
+- Utilizar herramientas de medición para asegurarse de los voltajes obtenidos.
 
-**Ejercicio:** Alimentar el dsPIC33FJ32MC202.
-	- Conectar el Master Clear
-	- Utilizar capacitores de desacoplo
-	- Conectar un cristal de cuarzo
-	- Grabarle un programa creado anteriormente
+Ejercicio:
+==========
+- Alimentar el dsPIC33FJ32MC202.
+- Conectar el Master Clear
+- Utilizar capacitores de desacoplo
+- Conectar un cristal de cuarzo
+- Grabarle un programa creado anteriormente
 
 **Deseñar en Proteus**
 
