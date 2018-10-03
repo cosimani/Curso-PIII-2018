@@ -7,7 +7,7 @@ Clase 07 - PIII 2018
 (Fecha: 3 de octubre)
 
 
-**Problema con el Ejemplo Filtro FIR**
+**Problema con el Ejemplo del filtro paso bajos anterior**
 
 - Utilizando el código que hace la sumatoria del producto de los valores de los vectores, se consume demasiado tiempo.
 - Tanto tiempo que no se puede mantener la frecuencia de muestreo.

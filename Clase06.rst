@@ -42,19 +42,19 @@ Programación de filtros
 .. code-block:: c
 
 	#define M 17
-	float x[M];
-	float h[M];
+	float x[ M ];
+	float h[ M ];
 
 	float yn = 0;
 	short k;
 	
-	for (k=M-1 ; k>=1 ; k--)
-	    x[n] = x[n-1];
+	for ( k = M - 1 ; k >= 1 ; k-- )
+	    x[ k ] = x[ k-1 ];
 		
-	x[0] = x0;  // x0 es la muestra actual
+	x[ 0 ] = x0;  // x0 es la muestra actual
 	
-	for (k=0 ; k<M ; k++)
-	    yn += h[k]*x[k];
+	for ( k = 0 ; k < M ; k++ )
+	    yn += h[ k ] * x[ k ];
 
 **Función de transferencia: Filtro pasa bajos**
 
