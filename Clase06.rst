@@ -188,3 +188,11 @@ Ejercicio 12:
 
 - Programar esto y controlar en Proteus. 
 - Analizar si la frecuencia de muestreo es la misma con el ADC encendido y apagado. Es decir, realizando el procesamiento de la señal o no.
+- De ser necesario, definir una frecuencia de muestreo tal que no se vea afectado el procesamiento.
+- Identificar cuál es la frecuencia máxima a la que se podría muestrear.
+
+
+Ejercicio 13:
+============
+
+- Calcular esa frecuencia máxima para el ADC automático.
