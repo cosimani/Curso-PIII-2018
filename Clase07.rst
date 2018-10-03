@@ -445,6 +445,19 @@ Clase 07 - PIII 2018
 
 
 
+Ejercicio 14:
+============
+
+- Usar la placa con el dsPIC30F4013 y defina los parámetros que considere para lograr lo siguiente:
+	- Filtro pasa bajos con frecuencia de corte 200 Hz
+	- ADC Automático 
+	- DAC R-2R
+	- Usar el generador de señales del laboratorio
+
+- Entregar:
+	- Video de aproximadamente 10 segundos mostrando cómo se atenúa la señal de entrada
+	- Código fuente con comentarios en el código y organizado en funciones
+
 
 
 
