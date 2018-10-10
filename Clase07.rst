@@ -4,7 +4,7 @@
 
 Clase 07 - PIII 2018
 ====================
-(Fecha: 3 de octubre)
+(Fecha: 10 de octubre)
 
 
 **Problema con el Ejemplo del filtro paso bajos anterior**
