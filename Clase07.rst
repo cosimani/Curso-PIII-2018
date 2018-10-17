@@ -11,6 +11,9 @@ Primera entrega de prácticos finales
 ====================================
 
 
+.. figure:: resources/clase07/espacio-vertical.png
+
+
 **Identificador de tonos DTMF ( Agustina Alvarez - Carlos Ignacio )** 
 
 ( Clic sobre la siguiente imagen para abrir el informe en PDF )
