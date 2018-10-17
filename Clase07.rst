@@ -18,8 +18,8 @@ Primera entrega de prácticos finales
 .. figure:: resources/clase07/PrimeraEntrega-Agustina-Carlos.png
 	:target: resources/clase07/PrimeraEntrega-Agustina-Carlos.pdf
 
- 
-=
+
+
 
 **Reconocimiento de voz ( Karraz Facundo - Gutierrez Julian )** 
 
