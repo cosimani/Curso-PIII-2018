@@ -19,6 +19,7 @@ Primera entrega de prácticos finales
 	:target: resources/clase07/PrimeraEntrega-Agustina-Carlos.pdf
 
 
+.. figure:: resources/clase07/espacio-vertical.png
 
 
 **Reconocimiento de voz ( Karraz Facundo - Gutierrez Julian )** 
