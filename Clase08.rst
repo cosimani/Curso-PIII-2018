@@ -453,14 +453,37 @@ Ejercicio 14:
 	- ADC Automático 
 	- DAC R-2R
 	- Usar el generador de señales del laboratorio
+	- Elegir un pulsador para intercambiar entre:
+		- Default: Señal sin procesar
+		- 1- Pasa bajos con frecuencia de corte 200 Hz
+		- 2- Pasa bajos con frecuencia de corte según se indica para cada alumno
 
 - Entregar:
 	- Video de aproximadamente 10 segundos mostrando cómo se atenúa la señal de entrada
 	- Código fuente con comentarios en el código y organizado en funciones
 
 
+**Variaciones por alumno:**
 
+:Agustina:
+    Frecuencia de corte para el segundo pasa bajos: 800 Hz
+	
+    Frecuencia de muestreo: 5 kHz
 
+:Carlos:
+    Frecuencia de corte para el segundo pasa bajos: 500 Hz
+	
+    Frecuencia de muestreo: 7 kHz
+
+:Julián:
+    Frecuencia de corte para el segundo pasa bajos: 700 Hz
+	
+    Frecuencia de muestreo: 4 kHz
+
+:Facundo:
+    Frecuencia de corte para el segundo pasa bajos: 600 Hz
+	
+    Frecuencia de muestreo: 6 kHz
 
 
 
