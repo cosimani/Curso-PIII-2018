@@ -255,27 +255,27 @@ Clase 09 - PIII 2018
 	}
 
 
-Ejercicio 13:
+Ejercicio 15:
 ============
 
 - Modificar el ejemplo para utilizar la interrupción del ADC.
 
-Ejercicio 14:
+Ejercicio 16:
 ============
 
 - Modificar el ejemplo para utilizar la interrupción del ADC y no usar el timer.
 
-Ejercicio 15:
+Ejercicio 17:
 ============
 
 - En lugar de realizar el análisis cada 100Hz, realizarlo cada 10Hz.
 
-Ejercicio 16:
+Ejercicio 18:
 ============
 
 - Elejir la frecuencia de una cuerda de la guitarra y adaptar el programa para hacer un afinador de esa cuerda.
 
-Ejercicio 17:
+Ejercicio 19:
 ============
 
 - Elegir una frecuencia particular y visualizar en los puertos RB la potencia de esa frecuencia (como un vúmetro digital).
