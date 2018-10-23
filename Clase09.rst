@@ -246,7 +246,8 @@ Clase 09 - PIII 2018
 	            // Necesario para acomodar en orden natural los bits.
 	            BitReverseComplex( 7, InputSamples );
 
-	            obtenerResultado();  // Analiza la amplitud de las muestras DFT y publica resultados en RB0-RB5
+	            // Analiza la amplitud de las muestras DFT y publica resultados en RB0-RB5
+	            obtenerResultado();  
 
 	            listo = 0;  // Indicamos que publicamos un resultado y ahora esperamos el proximo analisis
 	        }
