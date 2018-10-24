@@ -243,7 +243,7 @@ Clase 09 - PIII 2018
 	            // Calcula FFT en 7 etapas, 128 pares de muestras almacenados en InputSamples.
 	            FFT( 7, TwiddleCoeff_128, InputSamples );
 
-	            // Necesario para acomodar en orden natural los bits.
+	            // Método de inversión de bits, necesario para aplicar el algoritmo de FFT.
 	            BitReverseComplex( 7, InputSamples );
 
 	            // Analiza la amplitud de las muestras DFT y publica resultados en RB0-RB5
