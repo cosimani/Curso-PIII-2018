@@ -2,7 +2,10 @@
 
 .. _rcs_subversion:
 
-Clase 12 - PIII 2017 (clase no preparada aún)
+Clase 12 - PIII 2018
 ====================
-(Fecha: 8 de noviembre)
+(Fecha: 21 de noviembre)
 
+
+Revisión de trabajos
+====================
