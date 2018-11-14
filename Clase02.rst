@@ -16,6 +16,7 @@ Ejercicio 2:
 - Flanco descendente
 - Pulsador en INT1 con resistencia en Pull up.
 - Resolver el problema de no tener un pin para la INT1
+- Ver el siguiente `Link <http://download.mikroe.com/documents/compilers/mikroc/dspic/help/peripheral_pin_select_library.htm>`_
 
 Ejercicio:
 ==========
